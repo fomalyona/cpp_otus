@@ -1,0 +1,42 @@
+name: 'Filter IP Release'
+on:
+  pull_request:
+    branches:
+      - release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: mkdir
+        run: mkdir build
+      - name: cmake build
+        run: cmake -Bbuild -DPATCH_VERSION=${{ github.run_number }} -DBUILD_TESTS=ON ${{github.workspace}}/hw2/
+      - name: cmake make
+        run: cmake --build build/
+      - run: cmake --build build/ --target package
+      - name: Run unit tests
+        run: ./build/tests/test_filter_ip
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: IP Filter ${{ github.run_number }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/ip_filter-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: /build/ip_filter-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
