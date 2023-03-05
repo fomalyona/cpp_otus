@@ -1,6 +1,6 @@
 name: 'Filter IP Release'
 on:
-  pull_request:
+  push:
     branches:
       - release
 
