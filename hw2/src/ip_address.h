@@ -3,34 +3,29 @@
 #include <string>
 #include <vector>
 
-
-class Ip
-{
-public:
-    Ip(const std::string& str)
-    {
-        ip = std::stoi(str);
-    }
-
-    Ip(uint8_t num)
-    {
-        ip = num;
-    }
-    ~Ip() = default;
-    uint8_t ip;
-
-};
-
-std::ostream& operator<<(std::ostream& out, const Ip& value)
-{
-    out << std::to_string(value.ip);
-    return out;
-}
-
 class IpAddress
 {
 public:
-    typedef Ip value_type;
+    using value_type Value;
+
+    struct Value
+    {
+    public:
+        Value(const std::string& str):value (std::stoi(str))
+        {
+        }
+
+        Value(uint8_t num):value(num)
+        {
+        }
+
+        ~Value() = default;
+        
+        uint8_t value;
+
+    };
+
+
     IpAddress(std::vector<Ip> ip):_address(std::move(ip))
     {
         assert(_address.size() == 4);

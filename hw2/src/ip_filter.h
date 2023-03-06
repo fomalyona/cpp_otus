@@ -11,8 +11,8 @@
 
 namespace filtering_ip
 {
-    static constexpr int len_ip = 4;
-    static constexpr int len_line = 3;
+    static constexpr int ip_size = 4;
+    static constexpr int input_line_size = 3;
 
     template<typename T>
     std::vector<T> split(const std::string& line, const char separator = '.')
