@@ -1,4 +1,4 @@
-#include "../src/filter_ip_lib.h"
+#include "../src/ip_filter.h"
 
 #include "gtest/gtest.h"
 
@@ -21,8 +21,9 @@ TEST( test_filter_ip_lib, test_filter_ip_lib)
                           IpAddress({146,101,163,119}),
                           IpAddress({46,101,163,119}) };
 
-    data = filtering_ip::sort(data);
-//    filtering_ip::print(data);
+    data = filtering_ip::sort_by_greater(data);
+    filtering_ip::print(data);
+
     ASSERT_EQ(data.at(0), IpAddress({146,101,163,119}));
 
 

@@ -6,16 +6,15 @@
 class IpAddress
 {
 public:
-    using value_type Value;
 
     struct Value
     {
     public:
-        Value(const std::string& str):value (std::stoi(str))
+        Value(const std::string& str) : value (std::stoi(str))
         {
         }
 
-        Value(uint8_t num):value(num)
+        Value(uint8_t num) : value(num)
         {
         }
 
@@ -25,15 +24,16 @@ public:
 
     };
 
+    using value_type  = Value;
 
-    IpAddress(std::vector<Ip> ip):_address(std::move(ip))
+    IpAddress(std::vector<Value> ip):_address(std::move(ip))
     {
         assert(_address.size() == 4);
     }
 
     ~IpAddress() = default;
 
-    const std::vector<Ip>& get() const
+    const std::vector<IpAddress::Value>& get() const
     {
         return _address;
     }
@@ -64,14 +64,14 @@ public:
     }
 
 private:
-    std::vector<Ip> _address;
+    std::vector<IpAddress::Value> _address;
 
 };
 
 
 std::ostream& operator<<(std::ostream& out, const IpAddress& value)
 {
-    auto print = [&](const Ip& n, const std::string& del=".") { out << n << del; };
+    auto print = [&](const IpAddress::Value& n, const std::string& del=".") { out << static_cast<int>(n.value) << del; };
     std::for_each(value.cbegin(), value.cend()-1, print);
     print(*(value.end()-1),"");
     return out;
@@ -84,10 +84,10 @@ bool operator<(const IpAddress& a, const IpAddress &b)
 
     for (auto begin1 = a.get().begin(), begin2 = b.get().begin(); begin1 != end1 && begin2!=end2; ++begin1, ++begin2)
     {
-        if (begin1->ip != begin2->ip)
-            return begin1->ip < begin2->ip;
+        if (begin1->value != begin2->value)
+            return begin1->value < begin2->value;
     }
-    return end1->ip < end2->ip;
+    return end1->value < end2->value;
 
 }
 

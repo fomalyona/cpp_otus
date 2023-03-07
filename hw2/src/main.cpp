@@ -1,4 +1,4 @@
-#include "filter_ip_lib.h"
+#include "ip_filter.h"
 
 #include <iostream>
 
@@ -6,7 +6,7 @@ int main (int, char **)
 {
     try
     {
-        filtering_ip::filter();
+        filtering_ip::run_filter();
     }
     catch(const std::exception &e)
     {
