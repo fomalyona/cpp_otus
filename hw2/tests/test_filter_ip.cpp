@@ -19,8 +19,8 @@ std::string md5_from_string(const std::string& in)
     MD5(reinterpret_cast<unsigned char*>(str.data()), str.size(), result);
 
     std::ostringstream out;
-    out<<std::hex<<std::setfill('0');
-    for(auto c: result)
+    out << std::hex << std::setfill('0');
+    for(auto& c: result)
         out<<std::setw(2)<<static_cast<int>(c);
     return out.str();
 }
@@ -61,7 +61,7 @@ TEST(test_filter_ip, test_from_file)
 
     }
     else
-        std::cout << "failed open file: " << in_file << std::endl;
+        std::cerr << "failed open file: " << in_file << std::endl;
 
 }
 TEST( test_filter_ip, test_filter_ip)
