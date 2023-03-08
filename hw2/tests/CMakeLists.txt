@@ -20,10 +20,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
+find_package(OpenSSL REQUIRED)
+
 add_executable(${PROJECT_NAME}  ${CMAKE_CURRENT_SOURCE_DIR}/test_filter_ip.cpp)
 
 target_link_libraries(${PROJECT_NAME}
         GTest::gtest
+        OpenSSL::SSL
         )
-
-add_test(${PROJECT_NAME} test_filter_ip_lib)

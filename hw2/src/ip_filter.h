@@ -14,7 +14,7 @@ namespace filtering_ip
 {
 
     template<typename T>
-    std::vector<T> split(const std::string& line, const char separator = '.')
+    std::vector<T> split(const std::string& line, const char separator = ' ')
     {
         std::vector<T> data;
         std::string s = line;
@@ -31,6 +31,15 @@ namespace filtering_ip
         return data;
     }
 
+    std::vector<IpAddress> parse_from_in_stream(std::istream& stream = std::cin)
+    {
+        std::vector<IpAddress> ip_pool;
+        for(std::string line; std::getline(stream, line, '\n'); )
+            ip_pool.emplace_back(split<IpAddress::Value>(split<std::string>(line, '\t').at(0), '.'));
+
+        return ip_pool;
+    }
+
     template<typename T>
     std::vector<T> sort_by_greater( const std::vector<T>& in)
     {
@@ -43,22 +52,13 @@ namespace filtering_ip
     }
 
     template <typename Iterator, typename Predicate>
-    void print(Iterator begin, Iterator end, Predicate pred)
+    void print(Iterator begin, Iterator end, Predicate pred, std::ostream& stream = std::cout)
     {
         for (Iterator it = begin; it != end; ++it)
         {
             if (pred(*it))
-                std::cout << (*it) << std::endl;
+                stream << (*it) << std::endl;
         }
-    }
-
-    static std::vector<IpAddress> parse_from_in_stream()
-    {
-        std::vector<IpAddress> ip_pool;
-        for(std::string line; std::getline(std::cin, line, '\n'); )
-            ip_pool.emplace_back(split<IpAddress::Value>(split<std::string>(line, '\t').at(0)));
-
-        return ip_pool;
     }
 
     void print(const std::vector<IpAddress> &ips)
@@ -96,15 +96,12 @@ namespace filtering_ip
         auto data = parse_from_in_stream();
 
         data = sort_by_greater(data);
-//       std::cout << "------------" << std::endl;
+
         print(data);
-//       std::cout << "------------" << std::endl;
 
         print_by_first(data, 1);
-//       std::cout << "------------" << std::endl;
 
         print_by_first_second(data, 46, 70);
-//       std::cout << "------------" << std::endl;
 
         print_by_any(data, 46);
 
