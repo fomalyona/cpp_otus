@@ -27,7 +27,7 @@ std::string md5_from_string(const std::string& in)
 
 TEST(test_filter_ip, test_from_file)
 {
-    std::string in_file = "../ip_filter.tsv";
+    std::string in_file = "hw2/tests/ip_filter.tsv";
 
     static std::ifstream alt_cin;
     alt_cin.open (in_file.c_str(), std::ios::in | std::ios::binary);

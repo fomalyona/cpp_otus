@@ -13,9 +13,9 @@ jobs:
           submodules: true
       - name: mkdir
         run: mkdir build
-      - name: cmake build
+      - name: cmake
         run: cmake -Bbuild -DPATCH_VERSION=${{ github.run_number }} -DBUILD_TESTS=ON ${{github.workspace}}/hw2/
-      - name: cmake make
+      - name: cmake build
         run: cmake --build build/
       - run: cmake --build build/ --target package
       - name: Run unit tests
