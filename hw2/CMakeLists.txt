@@ -9,7 +9,7 @@ configure_file(version.h.in version.h)
 
 add_executable(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/filter_ip_lib.cpp)
+        )
 
 set_target_properties( ${PROJECT_NAME} PROPERTIES
         CXX_STANDARD 17
