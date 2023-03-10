@@ -17,6 +17,26 @@ public:
         ~Value() = default;
         
         uint8_t value;
+
+        bool operator>(const Value& other) const
+        {
+            return value > other.value;
+        }
+
+        bool operator<(const Value& other) const
+        {
+            return value < other.value;
+        }
+
+        bool operator==(const Value& other) const
+        {
+            return value == other.value;
+        }
+
+        bool operator!=(const Value& other) const
+        {
+            return value != other.value;
+        }
     };
 
     IpAddress(std::vector<Value> ip) : _address(std::move(ip))
@@ -47,6 +67,26 @@ public:
         return _address.cend();
     }
 
+    bool operator>(const IpAddress& other) const
+    {
+        return _address > other._address;
+    }
+
+    bool operator<(const IpAddress& other) const
+    {
+        return _address < other._address;
+    }
+
+    bool operator==(const IpAddress& other) const
+    {
+        return _address == other._address;
+    }
+
+    bool operator!=(const IpAddress& other) const
+    {
+        return _address != other._address;
+    }
+
 private:
 
     static constexpr int ip_len = 4;
@@ -61,55 +101,4 @@ std::ostream& operator<<(std::ostream& out, const IpAddress& value)
     std::for_each(value.cbegin(), value.cend()-1, print);
     print(*(value.cend()-1),"");
     return out;
-}
-
-bool operator<(const IpAddress::Value& a, const IpAddress::Value &b)
-{
-    return a.value < b.value;
-
-}
-
-bool operator>(const IpAddress::Value& a, const IpAddress::Value &b)
-{
-    return a.value > b.value;
-
-}
-
-bool operator==(const IpAddress::Value& a, const IpAddress::Value &b)
-{
-    return a.value == b.value;
-}
-
-bool operator!=(const IpAddress::Value& a, const IpAddress::Value &b)
-{
-    return a.value != b.value;
-}
-
-bool operator<(const IpAddress& a, const IpAddress &b)
-{
-    auto end1 = a.get().end();
-    auto end2 = b.get().end();
-
-    for (auto begin1 = a.get().begin(), begin2 = b.get().begin(); begin1 != end1 && begin2 != end2; ++begin1, ++begin2)
-    {
-        if (begin1->value != begin2->value)
-            return begin1->value < begin2->value;
-    }
-    return end1->value < end2->value;
-
-}
-
-bool operator>(const IpAddress& a, const IpAddress &b)
-{
-    return b < a;
-}
-
-bool operator==(const IpAddress& a, const IpAddress &b)
-{
-    return b.get() == a.get();
-}
-
-bool operator!=(const IpAddress& a, const IpAddress &b)
-{
-    return b.get() != a.get();
 }
